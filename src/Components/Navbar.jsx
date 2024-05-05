@@ -31,7 +31,7 @@ function Navbar() {
     <div className="sticky top-0 z-10 bg-white w-full border rounded-lg py-3 px-7 shadow-md flex justify-between items-center">
       <h1 className="text-xl flex gap-x-1 font-semibold">
         <p className="">👋</p>
-        {user.firstName ? user.firstName : "Guest"}
+        { user && user.firstName ? user.firstName : "Guest"}
       </h1>
       <div>
         <div className="flex gap-x-5 pb-2 px-3">

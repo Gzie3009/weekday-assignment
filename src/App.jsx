@@ -28,7 +28,7 @@ export default function App() {
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
-  });
+  }, []);
 
   return (
     <BrowserRouter>
@@ -39,7 +39,7 @@ export default function App() {
             <Navbar />
             <DisplayCard />
             <BottomProfileDrawer />
-            <TabSection/>
+            <TabSection />
           </div>
           <ProfileComponent />
         </main>
