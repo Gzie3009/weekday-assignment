@@ -27,12 +27,11 @@ const buttonData = [
 function Sidebar() {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.sidebar.isSidebarOpen);
-  console.log(isOpen);
   const user = { username: "John Doe" };
   return (
     <div
       className={`h-[100vh] flex flex-col justify-between items-center py-5 px-3 border rounded-r-lg border-gray-300 relative ${
-        isOpen ? "w-[21vw]" : "w-[7.5vw]"
+        isOpen ? "w-[21rem]" : "w-[8rem]"
       }`}
     >
       <div>

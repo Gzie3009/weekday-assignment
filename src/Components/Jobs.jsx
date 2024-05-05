@@ -11,86 +11,77 @@ function Jobs() {
   const loaderRef = useRef(null);
   const location = useLocation();
 
-  const fetchJobs = async (limit, offset) => {
-    setIsLoading(true);
-    const res = await fetch(
-      "https://api.weekday.technology/adhoc/getSampleJdJSON",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          limit,
-          offset,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+  const filterJobs = (jobs, params) => {
+    return jobs.filter((job) => {
+      if (
+        params.has("selectedRole") &&
+        !params.getAll("selectedRole").includes(job.jobRole)
+      ) {
+        return false;
       }
-    );
-    const data = await res.json();
-    setJobs((prevJobs) => [...prevJobs, ...data.jdList]); // Append new jobs to existing jobs
-    setIsLoading(false);
+
+      if (
+        params.has("selectedWorkMode") &&
+        !params.getAll("selectedWorkMode").includes(job.workMode)
+      ) {
+        return false;
+      }
+      if (
+        params.has("selectedExperience") &&
+        parseInt(params.get("selectedExperience")) !== job.experience
+      ) {
+        return false;
+      }
+      if (
+        params.has("selectedBasePay") &&
+        parseInt(params.get("selectedBasePay")) > job.maxJdSalary * 1000
+      ) {
+        return false;
+      }
+
+      if (
+        params.has("searchCompany") &&
+        !job.companyName
+          .toLowerCase()
+          .includes(params.get("searchCompany").toLowerCase())
+      ) {
+        return false;
+      }
+      return true;
+    });
   };
 
   useEffect(() => {
     // Fetch jobs when the component mounts and whenever the offset changes
+    const fetchJobs = async (limit, offset) => {
+      setIsLoading(true);
+      const res = await fetch(
+        "https://api.weekday.technology/adhoc/getSampleJdJSON",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            limit,
+            offset,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await res.json();
+      setJobs((prevJobs) => [...prevJobs, ...data.jdList]); // Append new jobs to existing jobs
+      setIsLoading(false);
+    };
+
     fetchJobs(limit, offset);
   }, [offset]);
 
   useEffect(() => {
-    // Parse URL parameters to apply filters
     const params = new URLSearchParams(location.search);
-    const filteredJobs = jobs.filter((job) => {
-      // Filter by role
-      if (params.has("role")) {
-        const roles = params.getAll("role");
-        if (!roles.includes(job.role)) {
-          return true;
-        }
-      }
-      // Filter by number of employees
-      if (params.has("employees")) {
-        const employees = params.getAll("employees");
-        if (!employees.includes(job.employees.toString())) {
-          return false;
-        }
-      }
-      // Filter by work mode
-      if (params.has("workMode")) {
-        const workModes = params.getAll("workMode");
-        if (!workModes.includes(job.workMode)) {
-          return false;
-        }
-      }
-      // Filter by experience
-      if (params.has("experience")) {
-        const experiences = params.getAll("experience");
-        if (!experiences.includes(job.experience.toString())) {
-          return false;
-        }
-      }
-      // Filter by minimum base pay
-      if (params.has("basePay")) {
-        const basePays = params.getAll("basePay");
-        if (!basePays.some((basePay) => job.basePay >= basePay)) {
-          return false;
-        }
-      }
-      // Filter by company name
-      if (params.has("searchCompany")) {
-        const searchCompany = params.get("searchCompany").toLowerCase();
-        if (!job.companyName.toLowerCase().includes(searchCompany)) {
-          return false;
-        }
-      }
-      return true;
-    });
-
-    // Update state with filtered jobs
-    setJobs(filteredJobs);
-  }, [location.search, jobs]);
+    setJobs((prevJobs) => filterJobs(prevJobs, params));
+  }, [location.search]);
 
   useEffect(() => {
-    // Intersection observer logic remains the same
     const options = {
       root: null,
       rootMargin: "20px",

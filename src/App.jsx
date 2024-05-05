@@ -8,6 +8,8 @@ import { Provider } from "react-redux";
 import { store } from "./Core/Redux/store";
 import { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
+import BottomProfileDrawer from "./Components/BottomProfileBar";
+import TabSection from "./Components/TabSection";
 export default function App() {
   const user = {
     firstName: "Mrinmoy",
@@ -37,7 +39,8 @@ export default function App() {
           <div className="w-full h-[100vh] overflow-x-hidden overflow-y-scroll">
             <Navbar />
             <DisplayCard />
-            <Jobs />
+            <BottomProfileDrawer />
+            <TabSection/>
           </div>
           <ProfileComponent />
         </main>

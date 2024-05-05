@@ -7,7 +7,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 const MyComponent = () => {
   // State variables to hold selected filter values
   const [selectedRole, setSelectedRole] = useState([]);
-  const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [selectedWorkMode, setSelectedWorkMode] = useState([]);
   const [selectedExperience, setSelectedExperience] = useState(null);
   const [selectedBasePay, setSelectedBasePay] = useState(null);
@@ -21,7 +20,6 @@ const MyComponent = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     setSelectedRole(params.getAll("selectedRole"));
-    setSelectedEmployees(params.getAll("selectedEmployees"));
     setSelectedWorkMode(params.getAll("selectedWorkMode"));
     setSelectedExperience(parseInt(params.get("selectedExperience")) || null);
     setSelectedBasePay(parseInt(params.get("selectedBasePay")) || null);
@@ -31,20 +29,16 @@ const MyComponent = () => {
   // Update URL parameters when filter values change
   useEffect(() => {
     const params = new URLSearchParams();
-    selectedRole.forEach((role) => params.append("selectedRole", role));
-    selectedEmployees.forEach((employees) =>
-      params.append("selectedEmployees", employees)
-    );
-    selectedWorkMode.forEach((workMode) =>
+    selectedRole && selectedRole.forEach((role) => params.append("selectedRole", role));
+    selectedWorkMode && selectedWorkMode.forEach((workMode) =>
       params.append("selectedWorkMode", workMode)
     );
-    params.set("selectedExperience", selectedExperience || "");
-    params.set("selectedBasePay", selectedBasePay || "");
-    params.set("searchCompany", searchCompany);
+    selectedExperience && params.set("selectedExperience", selectedExperience || "");
+    selectedBasePay && params.set("selectedBasePay", selectedBasePay || "");
+    searchCompany && params.set("searchCompany", searchCompany);
     navigate({ search: params.toString() });
   }, [
     selectedRole,
-    selectedEmployees,
     selectedWorkMode,
     selectedExperience,
     selectedBasePay,
@@ -54,8 +48,6 @@ const MyComponent = () => {
 
   // Event handlers for filter value changes
   const handleRoleChange = (event, newValue) => setSelectedRole(newValue);
-  const handleEmployeesChange = (event, newValue) =>
-    setSelectedEmployees(newValue);
   const handleWorkModeChange = (event, newValue) =>
     setSelectedWorkMode(newValue);
   const handleExperienceChange = (event, newValue) =>

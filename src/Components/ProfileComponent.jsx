@@ -11,7 +11,7 @@ function ProfileComponent() {
   const isOpen = useSelector((state) => state.sidebar.isProfileOpen);
   const user = JSON.parse(localStorage.getItem("user"));
   return (
-    <div className={`bg-[#BCFCEA] ${isOpen && "w-[35vw]"} border-l relative`}>
+    <div className={`bg-[#BCFCEA] ${isOpen && "w-[35vw]"} border-l relative hidden md:block`}>
       {!isOpen && (
         <div className="w-[6rem] py-5 px-2">
           <div className="flex justify-center items-center flex-col">
