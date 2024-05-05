@@ -1,7 +1,5 @@
 import React from "react";
 import ChevronRight from "@mui/icons-material/ChevronRight";
-import { useDispatch } from "react-redux";
-import { toggleProfile } from "../Core/Redux/slice/drawerSlice";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 
 const jobStatusOptions = [
@@ -15,14 +13,13 @@ const jobStatusOptions = [
   "Please dont contact me",
 ];
 
-function ProfileComponentForm({ user }) {
-  const dispatch = useDispatch();
+function ProfileComponentForm({ user, toggleAction }) {
   return (
     <div className="py-5 w-full">
       <div className="flex items-center justify-between pr-3">
         <div className="flex items-center gap-x-2">
           <button
-            onClick={() => dispatch(toggleProfile(false))}
+            onClick={toggleAction}
             className="w-max h-max ml-2 bg-white rounded-[8px]"
           >
             <ChevronRight

@@ -24,7 +24,7 @@ const BottomProfileBar = () => {
         sx={{ "& .MuiDrawer-paper": { width: "100%", maxWidth: "500px" } }}
       >
         <div>
-            <ProfileComponentForm user={user}/>
+            <ProfileComponentForm user={user} toggleAction={toggleDrawer}/>
         </div>
       </Drawer>
     </div>

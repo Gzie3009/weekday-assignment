@@ -10,7 +10,11 @@ function ProfileComponent() {
   const isOpen = useSelector((state) => state.sidebar.isProfileOpen);
   const user = JSON.parse(localStorage.getItem("user"));
   return (
-    <div className={`bg-[#BCFCEA] ${isOpen && "w-[35vw]"} border-l relative hidden md:block`}>
+    <div
+      className={`bg-[#BCFCEA] ${
+        isOpen && "w-[35vw]"
+      } border-l relative hidden md:block`}
+    >
       {!isOpen && (
         <div className="w-[6rem] py-5 px-2">
           <div className="flex justify-center items-center flex-col">
@@ -26,7 +30,12 @@ function ProfileComponent() {
           </button>
         </div>
       )}
-      {isOpen && <ProfileComponentForm user={user} />}
+      {isOpen && (
+        <ProfileComponentForm
+          user={user}
+          toggleAction={() => dispatch(toggleProfile(false))}
+        />
+      )}
       {!isOpen && (
         <div className="w-max h-max absolute top-6 right-[90%] z-50">
           <SidebarToggleButton
