@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import DisplayCard from "./Components/DisplayCard";
+import Jobs from "./Components/Jobs";
+import Navbar from "./Components/Navbar";
+import ProfileComponent from "./Components/ProfileComponent";
+import Sidebar from "./Components/Sidebar";
+import { Provider } from "react-redux";
+import { store } from "./Core/Redux/store";
+import { useEffect } from "react";
+import { BrowserRouter } from "react-router-dom";
+export default function App() {
+  const user = {
+    firstName: "Mrinmoy",
+    lastName: "Saikia",
+    currentSalary: {
+      fixedSalary: 32,
+      variable: 4.2,
+      stocks: 12,
+    },
+    expectedSalary: 55,
+    jobSwitchStatus: "",
+    email: "dev.work.gzie@gmail.com",
+    wnumber: "7086817628",
+    jobConfidentiality: "",
+    referralGivingStatus: false,
+  };
 
-function App() {
-  const [count, setCount] = useState(0)
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  });
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <Provider store={store}>
+        <main className="flex w-full">
+          <Sidebar />
+          <div className="w-full h-[100vh] overflow-x-hidden overflow-y-scroll">
+            <Navbar />
+            <DisplayCard />
+            <Jobs />
+          </div>
+          <ProfileComponent />
+        </main>
+      </Provider>
+    </BrowserRouter>
+  );
 }
-
-export default App
