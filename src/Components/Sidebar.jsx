@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import SearchIcon from "@mui/icons-material/Search";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";

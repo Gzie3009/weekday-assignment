@@ -1,6 +1,5 @@
 import "./App.css";
 import DisplayCard from "./Components/DisplayCard";
-import Jobs from "./Components/Jobs";
 import Navbar from "./Components/Navbar";
 import ProfileComponent from "./Components/ProfileComponent";
 import Sidebar from "./Components/Sidebar";

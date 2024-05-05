@@ -4,7 +4,8 @@ import Filters from "./Filters";
 import JobCard from "./JobCard";
 
 function Jobs() {
-  const [jobs, setJobs] = useState([]);
+  const [allJobs, setAllJobs] = useState([]); // Array to hold all jobs
+  const [filteredJobs, setFilteredJobs] = useState([]); // Array to hold filtered jobs
   const [isLoading, setIsLoading] = useState(false);
   const [offset, setOffset] = useState(0);
   const limit = 10;
@@ -21,20 +22,14 @@ function Jobs() {
       }
 
       if (
-        params.has("selectedWorkMode") &&
-        !params.getAll("selectedWorkMode").includes(job.workMode)
-      ) {
-        return false;
-      }
-      if (
         params.has("selectedExperience") &&
-        parseInt(params.get("selectedExperience")) !== job.experience
+        parseInt(params.get("selectedExperience")) !== job.minExp
       ) {
         return false;
       }
       if (
         params.has("selectedBasePay") &&
-        parseInt(params.get("selectedBasePay")) > job.maxJdSalary * 1000
+        parseInt(params.get("selectedBasePay")) > job.minJdSalary * 1000
       ) {
         return false;
       }
@@ -69,7 +64,7 @@ function Jobs() {
         }
       );
       const data = await res.json();
-      setJobs((prevJobs) => [...prevJobs, ...data.jdList]); // Append new jobs to existing jobs
+      setAllJobs((prevJobs) => [...prevJobs, ...data.jdList]); // Append new jobs to existing jobs
       setIsLoading(false);
     };
 
@@ -78,8 +73,9 @@ function Jobs() {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    setJobs((prevJobs) => filterJobs(prevJobs, params));
-  }, [location.search]);
+    const filtered = filterJobs(allJobs, params);
+    setFilteredJobs(filtered);
+  }, [location.search, allJobs]);
 
   useEffect(() => {
     const options = {
@@ -109,7 +105,7 @@ function Jobs() {
     <div>
       <Filters />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 px-3">
-        {jobs.map((job, index) => (
+        {filteredJobs.map((job, index) => (
           <JobCard key={index} job={job} />
         ))}
       </div>

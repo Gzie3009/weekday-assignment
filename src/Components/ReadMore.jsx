@@ -11,7 +11,7 @@ const ReadMore = ({ text }) => {
     <div>
       {isTruncated ? (
         <div className="relative">
-          <p className="z-0">{text.slice(0, 370)}</p>
+          <p className="z-0">{text && text.slice(0, 370)}</p>
           <button
             className="py-4 pt-20 -mt-20 w-full bottom-10 text-blue-500 bg-gradient-to-t from-white via-white to-transparent"
             onClick={toggleTruncate}

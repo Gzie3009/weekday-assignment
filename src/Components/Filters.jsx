@@ -7,7 +7,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 const MyComponent = () => {
   // State variables to hold selected filter values
   const [selectedRole, setSelectedRole] = useState([]);
-  const [selectedWorkMode, setSelectedWorkMode] = useState([]);
   const [selectedExperience, setSelectedExperience] = useState(null);
   const [selectedBasePay, setSelectedBasePay] = useState(null);
   const [searchCompany, setSearchCompany] = useState("");
@@ -20,7 +19,7 @@ const MyComponent = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     setSelectedRole(params.getAll("selectedRole"));
-    setSelectedWorkMode(params.getAll("selectedWorkMode"));
+
     setSelectedExperience(parseInt(params.get("selectedExperience")) || null);
     setSelectedBasePay(parseInt(params.get("selectedBasePay")) || null);
     setSearchCompany(params.get("searchCompany") || "");
@@ -29,17 +28,17 @@ const MyComponent = () => {
   // Update URL parameters when filter values change
   useEffect(() => {
     const params = new URLSearchParams();
-    selectedRole && selectedRole.forEach((role) => params.append("selectedRole", role));
-    selectedWorkMode && selectedWorkMode.forEach((workMode) =>
-      params.append("selectedWorkMode", workMode)
-    );
-    selectedExperience && params.set("selectedExperience", selectedExperience || "");
+    selectedRole &&
+      selectedRole.forEach((role) => params.append("selectedRole", role));
+
+    selectedExperience &&
+      params.set("selectedExperience", selectedExperience || "");
     selectedBasePay && params.set("selectedBasePay", selectedBasePay || "");
     searchCompany && params.set("searchCompany", searchCompany);
     navigate({ search: params.toString() });
   }, [
     selectedRole,
-    selectedWorkMode,
+
     selectedExperience,
     selectedBasePay,
     searchCompany,
@@ -48,14 +47,13 @@ const MyComponent = () => {
 
   // Event handlers for filter value changes
   const handleRoleChange = (event, newValue) => setSelectedRole(newValue);
-  const handleWorkModeChange = (event, newValue) =>
-    setSelectedWorkMode(newValue);
+
   const handleExperienceChange = (event, newValue) =>
     setSelectedExperience(newValue);
   const handleBasePayChange = (event, newValue) => setSelectedBasePay(newValue);
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-x-3 px-3 mb-5">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-x-3 px-3 mb-5">
       {/* Autocomplete for Role */}
       <Autocomplete
         getOptionLabel={(option) => option}
@@ -91,31 +89,6 @@ const MyComponent = () => {
             variant="outlined"
             label="Years of Experience"
           />
-        )}
-      />
-      {/* Autocomplete for Work Mode */}
-      <Autocomplete
-        getOptionLabel={(option) => option}
-        multiple
-        options={["Remote", "Onsite", "Hybrid"]}
-        value={selectedWorkMode}
-        onChange={handleWorkModeChange}
-        renderTags={(value, getTagProps) =>
-          value.map((option, index) => (
-            <Chip
-              label={option}
-              {...getTagProps({ index })}
-              onDelete={() =>
-                setSelectedWorkMode(
-                  selectedWorkMode.filter((_, i) => i !== index)
-                )
-              }
-              key={option}
-            />
-          ))
-        }
-        renderInput={(params) => (
-          <TextField {...params} variant="outlined" label="Work Mode" />
         )}
       />
       {/* Autocomplete for Base Pay */}

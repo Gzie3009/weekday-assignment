@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import Avatar from "./Avatar";
 import CreateIcon from "@mui/icons-material/Create";
 import { useDispatch, useSelector } from "react-redux";
