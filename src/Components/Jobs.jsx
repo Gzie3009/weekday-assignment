@@ -23,7 +23,7 @@ function Jobs() {
 
       if (
         params.has("selectedExperience") &&
-        parseInt(params.get("selectedExperience")) !== job.minExp
+        parseInt(params.get("selectedExperience")) < job.minExp
       ) {
         return false;
       }
