@@ -26,7 +26,7 @@ const buttonData = [
 function Sidebar() {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.sidebar.isSidebarOpen);
-  const user = { username: "John Doe" };
+  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <div
       className={`h-[100vh] flex flex-col justify-between items-center py-5 px-3 border rounded-r-lg border-gray-300 relative ${
@@ -88,7 +88,7 @@ function Sidebar() {
         <Avatar />
         {isOpen && (
           <span className="ml-2 text-sm font-light text-gray-500">
-            {user.username ? user.username : "User"}
+            {user.firstName ? `${user.firstName}` : "User"}
           </span>
         )}
       </div>
