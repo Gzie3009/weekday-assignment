@@ -15,7 +15,7 @@ const BottomProfileBar = () => {
   return (
     <div className="px-10 my-5">
       <button className="bg-green-500 p-3 w-full md:hidden rounded-xl" onClick={toggleDrawer}>
-        Open Drawer <Edit />
+        Edit Profile <Edit />
       </button>
       <Drawer
         anchor="bottom"
